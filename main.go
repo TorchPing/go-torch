@@ -6,11 +6,13 @@ import (
 	"time"
 
 	"github.com/Indexyz/go-torch/ping"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	router := gin.Default()
+	router.Use(cors.Default())
 
 	router.GET("/", func(c *gin.Context) {
 		c.JSON(http.StatusOK, gin.H{
