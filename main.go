@@ -1,7 +1,6 @@
 package main
 
 import (
-	"net/http"
 	"strconv"
 	"time"
 
@@ -63,5 +62,5 @@ func main() {
 		})
 	})
 
-	http.ListenAndServe(":8080", router)
+	router.Run()
 }
