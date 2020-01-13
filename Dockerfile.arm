@@ -1,0 +1,5 @@
+FROM alpine
+
+COPY builds/torch-linux-arm /bin/torch
+
+ENTRYPOINT ["/bin/torch"]
