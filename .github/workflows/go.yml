@@ -49,5 +49,31 @@ jobs:
       with:
         name: builds
         path: ./src/github.com/${{ github.repository }}/builds/
+    
+    - name: Create a Release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+      
+    - name: Upload binaries to release
+      uses: svenstaro/upload-release-action@v1-release
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: ./src/github.com/${{ github.repository }}/builds/*
+        tag: ${{ github.ref }}
+        overwrite: true
+        file_glob: true
+
+    - uses: mr-smithers-excellent/docker-build-push@v3
+      name: Build & push Docker image
+      with:
+        image: ${{ github.repository }}
+        tag: latest
+        registry: docker.pkg.github.com
+        directory: ./src/github.com/${{ github.repository }}
+        dockerfile: Dockerfile
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
         
         
