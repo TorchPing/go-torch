@@ -28,14 +28,11 @@ jobs:
             dep ensure
         fi
 
+    - name: mkdir builds
+      run: mkdir builds
+      
     - name: Generate build files
-      uses: thatisuday/go-cross-build@v1
-      with:
-          platforms: 'linux/amd64, linux/arm, freebsd/amd64, darwin/amd64, windows/amd64'
-          package: ''
-          name: 'torch'
-          compress: 'false'
-          dest: 'builds'
+      run: GOOS=linux GOARCH=amd64 go build -o builds/torch-linux-amd64
     
     - uses: actions/upload-artifact@v2
       with:
