@@ -1,0 +1,81 @@
+name: Go
+
+on: push
+
+jobs:
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
+    steps:
+      
+    - name: Set up Go 1.x
+      uses: actions/setup-go@v2
+      with:
+        go-version: ^1.13
+      id: go
+
+    - name: Check out code into the Go module directory
+      uses: actions/checkout@v2
+      with:
+        path: ./src/github.com/${{ github.repository }}
+    
+    - name: Get dependencies
+      run: |
+        go get -v -t -d ./...
+        if [ -f Gopkg.toml ]; then
+            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+            dep ensure
+        fi
+      working-directory: ./src/github.com/${{ github.repository }}
+
+    - name: mkdir builds
+      run: mkdir builds
+      working-directory: ./src/github.com/${{ github.repository }}
+      
+      
+    - name: go build
+      run: |
+        GOOS=linux GOARCH=amd64 go build -o builds/torch-linux-amd64 
+        GOOS=linux GOARCH=arm go build -o builds/torch-linux-arm 
+        GOOS=darwin GOARCH=amd64 go build -o builds/torch-darwin-amd64 
+        GOOS=freebsd GOARCH=amd64 go build -o builds/torch-freebsd-amd64 
+        GOOS=windows GOARCH=amd64 go build -o builds/torch-windows-amd64.exe
+      working-directory: ./src/github.com/${{ github.repository }}
+    
+    - uses: actions/upload-artifact@v2
+      with:
+        name: builds
+        path: ./src/github.com/${{ github.repository }}/builds/
+    
+    # - name: Create a Release
+    #   uses: actions/create-release@v1
+    #   env:
+    #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    #   with:
+    #     tag_name: ${{ github.ref }}
+    #     release_name: Release ${{ github.ref }}
+      
+    # - name: Upload binaries to release
+    #   uses: svenstaro/upload-release-action@v1-release
+    #   with:
+    #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+    #     file: ./src/github.com/${{ github.repository }}/builds/*
+    #     tag: ${{ github.ref }}
+    #     overwrite: true
+    #     file_glob: true
+
+    - uses: mr-smithers-excellent/docker-build-push@v3
+      name: Build & push Docker image
+      with:
+        image: ${{ github.repository }}
+        tag: latest
+        registry: docker.pkg.github.com
+        directory: ${{ github.workspace }}/src/github.com/${{ github.repository }}
+        dockerfile: Dockerfile
+        username: ${{ github.repository_owner }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+        
+        
