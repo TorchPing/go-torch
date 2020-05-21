@@ -7,10 +7,9 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      GOPATH: ${{ github.workspace }}
     steps:
-
-    - name: Set GOPATH
-      run: export GOPATH=$PWD
       
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
@@ -34,14 +33,14 @@ jobs:
     - name: mkdir builds
       run: mkdir builds
       
-    - name: Generate build files
-      uses: thatisuday/go-cross-build@v1
-      with:
-          platforms: 'linux/amd64, darwin/amd64, windows/amd64'
-          package: ./src/github.com/${{ github.repository }}
-          name: 'torch'
-          compress: 'false'
-          dest: 'builds'
+    - name: go build
+      run: |
+        GOOS=linux GOARCH=amd64 go build -o builds/torch-linux-amd64 ./src/github.com/${{ github.repository }} && \
+        GOOS=linux GOARCH=arm go build -o builds/torch-linux-arm ./src/github.com/${{ github.repository }} && \
+        GOOS=darwin GOARCH=amd64 go build -o builds/torch-darwin-amd64 ./src/github.com/${{ github.repository }} && \
+        GOOS=freebsd GOARCH=amd64 go build -o builds/torch-freebsd-amd64 ./src/github.com/${{ github.repository }} && \
+        GOOS=windows GOARCH=amd64 go build -o builds/torch-windows-amd64.exe ./src/github.com/${{ github.repository }}
+      
     
     - uses: actions/upload-artifact@v2
       with:
