@@ -16,11 +16,14 @@ jobs:
       with:
         go-version: ^1.13
       id: go
-
+      
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
       with:
         path: ./src/github.com/${{ github.repository }}
+        
+    - name: change workspace
+      run: echo ::set-env name=GITHUB_WORKSPACE::${{ github.workspace }}/src/github.com/${{ github.repository }} 
     
     - name: Get dependencies
       run: |
@@ -29,11 +32,9 @@ jobs:
             curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
             dep ensure
         fi
-      working-directory: ./src/github.com/${{ github.repository }}
 
     - name: mkdir builds
       run: mkdir builds
-      working-directory: ./src/github.com/${{ github.repository }}
       
       
     - name: go build
@@ -43,12 +44,11 @@ jobs:
         GOOS=darwin GOARCH=amd64 go build -o builds/torch-darwin-amd64 
         GOOS=freebsd GOARCH=amd64 go build -o builds/torch-freebsd-amd64 
         GOOS=windows GOARCH=amd64 go build -o builds/torch-windows-amd64.exe
-      working-directory: ./src/github.com/${{ github.repository }}
     
     - uses: actions/upload-artifact@v2
       with:
         name: builds
-        path: ./src/github.com/${{ github.repository }}/builds/
+        path: ./builds
     
     - name: Create a Release
       uses: actions/create-release@v1
@@ -62,7 +62,7 @@ jobs:
       uses: svenstaro/upload-release-action@v1-release
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ./src/github.com/${{ github.repository }}/builds/*
+        file: ./builds/*
         tag: ${{ github.ref }}
         overwrite: true
         file_glob: true
@@ -73,7 +73,6 @@ jobs:
         image: ${{ github.repository }}
         tag: latest
         registry: docker.pkg.github.com
-        directory: ./src/github.com/${{ github.repository }}
         dockerfile: Dockerfile
         username: ${{ github.repository_owner }}
         password: ${{ secrets.GITHUB_TOKEN }}
