@@ -1,9 +1,6 @@
 name: Go
 
-on:
-  release:
-    types: 
-        - created
+on: push
 
 jobs:
 
@@ -42,3 +39,4 @@ jobs:
       with:
         name: builds
         path: builds/
+        
