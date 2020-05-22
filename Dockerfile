@@ -21,6 +21,6 @@ FROM alpine:latest
 
 WORKDIR /bin/
 
-COPY --from=builder /src/cmd/cmd .
+COPY --from=builder /src/cmd/cmd ./torch
 
 ENTRYPOINT ["/bin/torch"]

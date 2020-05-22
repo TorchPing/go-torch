@@ -72,7 +72,7 @@ jobs:
       - name: Docker Login
         if: success() && startsWith(github.ref, 'refs/tags/v')
         run: |
-          docker login https://docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
+          docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Buildx (push)
         if: success() && startsWith(github.ref, 'refs/tags/v')
         run: |
