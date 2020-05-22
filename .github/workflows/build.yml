@@ -53,7 +53,7 @@ jobs:
           fi
           echo ::set-output name=build_date::$(date -u +'%Y-%m-%dT%H:%M:%SZ')
           echo ::set-output name=docker_platforms::linux/amd64,linux/arm/v6,linux/arm/v7,linux/arm64,linux/386
-          echo ::set-output name=docker_image::neverbehave/${{ github.event.repository.name }}/torch
+          echo ::set-output name=docker_image::neverbehave/${{ github.event.repository.name }}
       - # https://github.com/crazy-max/ghaction-docker-buildx
         name: Set up Docker Buildx
         uses: crazy-max/ghaction-docker-buildx@v1
@@ -72,7 +72,7 @@ jobs:
       - name: Docker Login
         if: success() && startsWith(github.ref, 'refs/tags/v')
         run: |
-          docker login https://docker.pkg.github.com -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }}
+          docker login https://docker.pkg.github.com -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Buildx (push)
         if: success() && startsWith(github.ref, 'refs/tags/v')
         run: |
