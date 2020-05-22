@@ -1,6 +1,9 @@
 # syntax=docker/dockerfile:experimental
 FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.13-alpine as builder
 
+
+ENV PORT=8080 \
+         GIN_MODE=production
 # Convert TARGETPLATFORM to GOARCH format
 # https://github.com/tonistiigi/xx
 COPY --from=tonistiigi/xx:golang / /

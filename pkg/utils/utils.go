@@ -1,4 +1,4 @@
-package ping
+package utils
 
 import (
 	"fmt"
@@ -7,11 +7,18 @@ import (
 	"time"
 )
 
-func timeIt(f func() interface{}) (int64, interface{}) {
+func TimeIt(f func() interface{}) (int64, interface{}) {
 	startAt := time.Now()
 	res := f()
 	endAt := time.Now()
 	return endAt.UnixNano() - startAt.UnixNano(), res
+}
+
+func TimeItWithResult(f func() (interface{}, interface{})) (int64, interface{}, interface{}) {
+	startAt := time.Now()
+	res, err := f()
+	endAt := time.Now()
+	return endAt.UnixNano() - startAt.UnixNano(), res, err
 }
 
 // FormatIP - trim spaces and format IP

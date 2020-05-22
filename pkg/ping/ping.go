@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"net"
 	"time"
+
+	"github.com/TorchPing/go-torch/pkg/utils"
 )
 
 // NewPing Create Ping Instane
@@ -68,7 +70,7 @@ func (ping Ping) Result() *Result {
 }
 
 func (ping Ping) ping() (time.Duration, error) {
-	duration, errIfce := timeIt(func() interface{} {
+	duration, errIfce := utils.TimeIt(func() interface{} {
 		host := fmt.Sprintf("%s:%d", ping.target.Host, ping.target.Port)
 
 		conn, err := net.DialTimeout("tcp", host, ping.target.Timeout)
