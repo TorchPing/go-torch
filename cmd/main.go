@@ -5,9 +5,13 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/Indexyz/go-torch/ping"
+	"github.com/TorchPing/go-torch/pkg/ping"
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+)
+
+var (
+	version = "dev"
 )
 
 func main() {
