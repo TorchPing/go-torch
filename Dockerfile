@@ -15,12 +15,12 @@ WORKDIR /src
 
 ENV GO111MODULE=on
 
-RUN cd cmd/torch && go env && go build -v
+RUN cd cmd && go env && go build -v
 
 FROM alpine:latest
 
 WORKDIR /bin/
 
-COPY --from=builder /src/cmd/torch/torch .
+COPY --from=builder /src/cmd/cmd .
 
 ENTRYPOINT ["/bin/torch"]

@@ -3,7 +3,6 @@ module github.com/TorchPing/go-torch
 go 1.14
 
 require (
-	github.com/Indexyz/go-torch v0.0.0-20200113004231-cbf9b87454b1 // indirect
 	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-contrib/sse v0.0.0-20190301062529-5545eab6dad3
 	github.com/gin-gonic/gin v1.4.0
