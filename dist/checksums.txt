@@ -1,7 +1,0 @@
-ac3e7272118d839bc7d6b9f9b341cfe90c15e7a63c4605aa57decf818827fe94  go-torch_0.0.4-next_Linux_arm64.tar.gz
-39e8ad6ead991c176c3830e3acc7eaecaf200d911d43b050ca985a49f209a621  go-torch_0.0.4-next_Linux_armv6.tar.gz
-52b883bdeac050ea153421c3107d32d8775c09f88d8634323848bb40bcad54e8  go-torch_0.0.4-next_freebsd_arm64.tar.gz
-9f4c679f57ddcfa7de5e5a3bf369159ef74926590d795d96e4bf2bb81ef67b6f  go-torch_0.0.4-next_Linux_x86_64.tar.gz
-53c35e013f06eab227b349ac32b64553bf3b7fbdf67dcdf3a8a84e095f6f850d  go-torch_0.0.4-next_Windows_x86_64.tar.gz
-389cbac5134e0124c85fe7b8ad8200d9167a94638f75430589bb28b3b3cd8e94  go-torch_0.0.4-next_freebsd_armv6.tar.gz
-25d37c29e13739630be7ea0efb5745a1a29cccee04c196d17dcfe0127e35ff01  go-torch_0.0.4-next_freebsd_x86_64.tar.gz
