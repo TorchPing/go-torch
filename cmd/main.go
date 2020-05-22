@@ -10,6 +10,10 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+var (
+	version = "dev"
+)
+
 func main() {
 	router := gin.Default()
 	router.Use(cors.Default())

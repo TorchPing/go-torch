@@ -1,4 +1,5 @@
-FROM --platform=$BUILDPLATFORM golang:1-alpine as builder
+# syntax=docker/dockerfile:experimental
+FROM --platform=${BUILDPLATFORM:-linux/amd64} golang:1.13-alpine as builder
 
 # Convert TARGETPLATFORM to GOARCH format
 # https://github.com/tonistiigi/xx
