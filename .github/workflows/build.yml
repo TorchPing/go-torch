@@ -1,3 +1,4 @@
+# https://github.com/crazy-max/diun/tree/master/.github/workflows
 name: build
 
 on: [push]
@@ -66,6 +67,7 @@ jobs:
         run: |
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=false" \
+            --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
             --file Dockerfile .
@@ -78,6 +80,7 @@ jobs:
         run: |
           docker buildx build --platform ${{ steps.prepare.outputs.docker_platforms }} \
             --output "type=image,push=true" \
+            --build-arg "VERSION=${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:${{ steps.prepare.outputs.version }}" \
             --tag "${{ steps.prepare.outputs.docker_image }}:latest" \
             --file Dockerfile .

@@ -99,6 +99,7 @@ func main() {
 		c.JSON(http.StatusOK, gin.H{
 			"message": "Meow~",
 			"version": "Golang Edition",
+			"ref":     version,
 		})
 	})
 
